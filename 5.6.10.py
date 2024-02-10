@@ -47,18 +47,19 @@ from selenium.webdriver.common.by import By
 Код должен быть универсальным и работать со всеми найденными на странице элементами.
 
 """
-
 with webdriver.Chrome() as browser:
-    browser.get("https://parsinger.ru/selenium/5.5/4/1.html")
+    browser.get("https://parsinger.ru/selenium/5.5/5/1.html")
     time.sleep(0.3)
 
-    for div in browser.find_elements(By.CLASS_NAME, "parent"):
-        gray = div.find_element(By.CSS_SELECTOR, 'textarea[color="gray"]')
-        blue = div.find_element(By.CSS_SELECTOR, 'textarea[color="blue"]')
-        btn = div.find_element(By.TAG_NAME, 'button')
-        blue.send_keys(gray.text)
-        gray.clear()
-        btn.click()
+    main_container = browser.find_elements(By.ID, "main-container")[1]
+    for divs in main_container.find_elements(By.XPATH, "./div"):
+        span_hex_text = divs.find_element(By.TAG_NAME, "span").text
+        divs.find_element(By.TAG_NAME, "select").send_keys(span_hex_text)
+        divs.find_element(By.TAG_NAME, 'div').find_element(By.CSS_SELECTOR,
+                                                           f'button[data-hex="{span_hex_text}"]').click()
+        divs.find_element(By.CSS_SELECTOR, 'input[type="checkbox"]').click()
+        divs.find_element(By.CSS_SELECTOR, 'input[type="text"]').send_keys(span_hex_text)
+        divs.find_element(By.XPATH, './button').click()
 
-    browser.find_element(By.ID, "checkAll").click()
-    print("Результат:", browser.find_element(By.ID, "congrats").text)
+    browser.find_element(By.XPATH, '//body/button').click()
+    print("Результат:", browser.switch_to.alert.text)
