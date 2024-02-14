@@ -7,5 +7,5 @@ with webdriver.Chrome() as browser:
     browser.get(url)
     WebDriverWait(browser, 10).until(EC.element_to_be_clickable((By.ID, "btn"))).click()
     if WebDriverWait(browser, 20).until(EC.title_is('345FDG3245SFD')):
-        print(browser.find_element(By.ID, 'result').text)
+        print("Результат:", browser.find_element(By.ID, 'result').text)
 
