@@ -30,4 +30,3 @@ with webdriver.Chrome() as driver:
     # Получаем и выводим сообщение
     message = driver.find_element(By.ID, "message").text
     print("Секретный код:", message)
-
